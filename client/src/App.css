@@ -139,7 +139,7 @@ body {
 }
 
 .column {
-  width: 272px;
+  width: 25%;
   min-width: 272px;
   background: var(--col-bg);
   border: 1px solid var(--border);

@@ -93,7 +93,6 @@ function App() {
     <div className="app">
       <header className="topbar">
         <div className="topbar-left">
-          <span className="logo-icon">▦</span>
           {editingName ? (
             <input
               ref={nameRef}
