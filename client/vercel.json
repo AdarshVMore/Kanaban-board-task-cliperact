@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/tasks/:path*",
+      "destination": "https://kanban-api-avm.fly.dev/tasks/:path*"
+    },
+    {
+      "source": "/tasks",
+      "destination": "https://kanban-api-avm.fly.dev/tasks"
+    }
+  ]
+}
