@@ -10,6 +10,7 @@ function App() {
   const [modalCol, setModalCol] = useState(null)
   const [boardName, setBoardName] = useState('My Board')
   const [editingName, setEditingName] = useState(false)
+  const [priorityFilter, setPriorityFilter] = useState('all')
   const nameRef = useRef(null)
 
   useEffect(() => {
@@ -35,12 +36,12 @@ function App() {
     }
   }
 
-  async function addTask(title, desc, status) {
+  async function addTask(title, desc, status, priority, dueDate) {
     try {
       const res = await fetch('/tasks', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title, description: desc, status })
+        body: JSON.stringify({ title, description: desc, status, priority, dueDate })
       })
       if (!res.ok) {
         const body = await res.json()
@@ -82,6 +83,11 @@ function App() {
     setEditingName(false)
   }
 
+  // Client-side priority filter (server filter endpoint exists but is not used here)
+  const visibleTasks = priorityFilter === 'all'
+    ? tasks
+    : tasks.filter(t => t.priority === priorityFilter)
+
   const cols = [
     { label: 'To Do',       type: 'todo' },
     { label: 'In Progress', type: 'inprogress' },
@@ -111,6 +117,19 @@ function App() {
         <span className="total-badge">{tasks.length} tasks</span>
       </header>
 
+      <div className="filter-bar">
+        <span className="filter-label">Filter by priority:</span>
+        {['all', 'high', 'medium', 'low', 'none'].map(p => (
+          <button
+            key={p}
+            className={`filter-btn ${priorityFilter === p ? 'filter-active' : ''}`}
+            onClick={() => setPriorityFilter(p)}
+          >
+            {p.charAt(0).toUpperCase() + p.slice(1)}
+          </button>
+        ))}
+      </div>
+
       {err && (
         <div className="err-toast">
           <span>{err}</span>
@@ -129,7 +148,7 @@ function App() {
               key={col.type}
               label={col.label}
               colType={col.type}
-              items={tasks.filter(t => t.status === col.type)}
+              items={visibleTasks.filter(t => t.status === col.type)}
               onMove={moveTask}
               onRemove={removeTask}
               onAddClick={() => setModalCol(col.type)}

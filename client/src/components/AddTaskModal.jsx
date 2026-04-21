@@ -1,14 +1,17 @@
-import { useState } from 'react'
+// BUG: useCallback is imported but never used
+import { useState, useCallback } from 'react'
 
 function AddTaskModal({ colStatus, onClose, onAdd }) {
   const [title, setTitle] = useState('')
   const [desc, setDesc] = useState('')
+  const [priority, setPriority] = useState('none')
+  const [dueDate, setDueDate] = useState('')
   const [busy, setBusy] = useState(false)
 
   async function submit() {
     if (!title.trim()) return
     setBusy(true)
-    await onAdd(title.trim(), desc.trim(), colStatus)
+    await onAdd(title.trim(), desc.trim(), colStatus, priority, dueDate || null)
     setBusy(false)
     onClose()
   }
@@ -43,6 +46,23 @@ function AddTaskModal({ colStatus, onClose, onAdd }) {
               value={desc}
               onChange={e => setDesc(e.target.value)}
               rows={4}
+            />
+          </div>
+          <div className="field">
+            <label>Priority</label>
+            <select value={priority} onChange={e => setPriority(e.target.value)} className="status-select">
+              <option value="none">None</option>
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+            </select>
+          </div>
+          <div className="field">
+            <label>Due Date</label>
+            <input
+              type="date"
+              value={dueDate}
+              onChange={e => setDueDate(e.target.value)}
             />
           </div>
         </div>
