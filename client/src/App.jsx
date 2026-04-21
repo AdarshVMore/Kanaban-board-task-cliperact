@@ -7,9 +7,7 @@ function App() {
   const [tasks, setTasks] = useState([])
   const [loading, setLoading] = useState(true)
   const [err, setErr] = useState(null)
-  const [modalCol, setModalCol] = useState(null)
-  const [boardName, setBoardName] = useState('My Board')
-  const [editingName, setEditingName] = useState(false)
+
   const nameRef = useRef(null)
 
   useEffect(() => {
