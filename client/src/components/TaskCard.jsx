@@ -5,8 +5,7 @@ const accents = ['#ef4444', '#f97316', '#eab308', '#22c55e', '#3b82f6', '#8b5cf6
 const statusOptions = [
   { value: 'todo',       label: 'To Do' },
   { value: 'inprogress', label: 'In Progress' },
-  { value: 'bug',        label: 'Bug' },
-  { value: 'done',       label: 'Done' },
+
 ]
 
 function TaskCard({ task, onMove, onRemove }) {
