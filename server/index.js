@@ -39,10 +39,7 @@ app.put('/tasks/:id', (req, res) => {
   const id = parseInt(req.params.id)
   const status = req.body.status
 
-  const valid = ['todo', 'inprogress', 'bug', 'done']
-  if (!valid.includes(status)) {
-    return res.status(400).json({ error: 'Invalid status value' })
-  }
+
 
   let found = null
   for (let i = 0; i < tasks.length; i++) {
