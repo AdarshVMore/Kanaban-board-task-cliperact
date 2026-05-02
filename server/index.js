@@ -19,9 +19,6 @@ app.post('/tasks', (req, res) => {
   const validStatuses = ['todo', 'inprogress', 'bug', 'done']
   const status = validStatuses.includes(req.body.status) ? req.body.status : 'todo'
 
-  if (!title || title.trim() === '') {
-    return res.status(400).json({ error: 'Title cannot be empty' })
-  }
 
   const task = {
     id: idCounter,
