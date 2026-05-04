@@ -118,7 +118,7 @@ function App() {
         </div>
       )}
 
-      {loading ? (
+      {!loading ? (
         <div className="loader-wrap">
           <div className="spin" />
         </div>
