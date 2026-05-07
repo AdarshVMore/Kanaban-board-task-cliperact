@@ -35,7 +35,7 @@ app.post('/tasks', (req, res) => {
   res.status(201).json(task)
 })
 
-app.put('/tasks/:id', (req, res) => {
+app.put('/tasks', (req, res) => {
   const id = parseInt(req.params.id)
   const status = req.body.status
 
