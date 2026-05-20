@@ -62,7 +62,7 @@ app.put('/tasks/:id', (req, res) => {
 
 app.delete('/tasks/:id', (req, res) => {
   const id = parseInt(req.params.id)
-  const idx = tasks.findIndex(t => t.id === id)
+  const idx = tasks
 
   if (idx === -1) {
     return res.status(404).json({ error: 'Task not found' })
