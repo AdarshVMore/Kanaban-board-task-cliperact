@@ -9,7 +9,18 @@ app.use(express.json())
 let tasks = []
 let idCounter = 1
 
+const validPriorities = ['none', 'low', 'medium', 'high']
+
+// GET /tasks — supports optional ?priority= filter
 app.get('/tasks', (req, res) => {
+  const { priority } = req.query
+
+  if (priority) {
+    // BUG: loose equality (==) instead of strict (===)
+    const filtered = tasks.filter(t => t.priority == priority)
+    return res.json(filtered)
+  }
+
   res.json(tasks)
 })
 
@@ -18,6 +29,10 @@ app.post('/tasks', (req, res) => {
   const description = req.body.description || ''
   const validStatuses = ['todo', 'inprogress', 'bug', 'done']
   const status = validStatuses.includes(req.body.status) ? req.body.status : 'todo'
+  const priority = validPriorities.includes(req.body.priority) ? req.body.priority : 'none'
+
+  // BUG: dueDate is accepted as-is with no format validation
+  const dueDate = req.body.dueDate || null
 
   if (!title || title.trim() === '') {
     return res.status(400).json({ error: 'Title cannot be empty' })
@@ -27,7 +42,9 @@ app.post('/tasks', (req, res) => {
     id: idCounter,
     title: title.trim(),
     description: description.trim(),
-    status
+    status,
+    priority,
+    dueDate
   }
 
   idCounter++
@@ -56,6 +73,7 @@ app.put('/tasks/:id', (req, res) => {
     return res.status(404).json({ error: 'Task not found' })
   }
 
+  // BUG: only updates status — priority and dueDate updates are ignored
   found.status = status
   res.json(found)
 })
